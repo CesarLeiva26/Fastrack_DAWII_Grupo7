@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout::head}">
+
+</head>
+<body>
+<nav th:replace="~{layout::menu}"></nav>
+<div class="card">
+
+<div class="card-header text-bg-dark mb-3 fs-4">
+    Transacción de Clientes - Fastrack
+</div>
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <button id="btnagregarcliente" type="button" class="btn btn-dark fs-">
+                <i class="fas fa-plus"></i> Agregar Cliente
+            </button>
+        </div>
+        <br>
+<div class="table-responsive vertscrol">
+    <table class="table table-hover table-bordered" id="tableclientes" tabindex="-1">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Direccion</th>
+            <th scope="col">Numero Telefono</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Fecha de pago</th>
+            <th scope="col">Monto Pagado</th>
+            <th scope="col">Metodo de pago</th>
+            <th scope="col">Estado de pago</th>
+            <th scope="col">Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cliente, clienteIndex : ${listadocliente}">
+            <td th:text="${cliente.idcliente}"></td>
+            <td th:text="${cliente.nombre}"></td>
+            <td th:text="${cliente.direccion}"></td>
+            <td th:text="${cliente.numerotelefono}"></td>
+            <td th:text="${cliente.correoelectronico}"></td>
+            <td th:text="${listadohistorialpago[clienteIndex.index].fechapago}"></td>
+            <td th:text="${listadohistorialpago[clienteIndex.index].montopagado}"></td>
+            <td th:text="${listadohistorialpago[clienteIndex.index].metodopago}"></td>
+            <td th:text="${listadohistorialpago[clienteIndex.index].estadopago}"></td>
+            <td>
+                <button type="button" class="btn btn-dark btnactualizarCliente"
+                        th:data-idcliente="${cliente.idcliente}"
+                        th:data-nombre="${cliente.nombre}"
+                        th:data-direccion="${cliente.direccion}"
+                        th:data-numerotelefono="${cliente.numerotelefono}"
+                        th:data-correoelectronico="${cliente.correoelectronico}"
+                        th:data-idpago="${listadohistorialpago[clienteIndex.index].idpago}"
+                        th:data-fechapago="${listadohistorialpago[clienteIndex.index].fechapago}"
+                        th:data-montopagado="${listadohistorialpago[clienteIndex.index].montopagado}"
+                        th:data-metodopago="${listadohistorialpago[clienteIndex.index].metodopago}"
+                        th:data-estadopago="${listadohistorialpago[clienteIndex.index].estadopago}">
+
+                    <i class="fas fa-edit"></i>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="modalNuevo" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Cliente</h1>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label" for="txtnombre">Cliente</label>
+                    <input class="form-control" id="txtnombre" type="text">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="txtdireccion">Direccion</label>
+                    <input class="form-control" id="txtdireccion" maxlength="30" type="text">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="txtnumerotelefono">Telefono</label>
+                    <input class="form-control" id="txtnumerotelefono" maxlength="30" type="text">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="txtcorreoelectronico">Correo</label>
+                    <input class="form-control" id="txtcorreoelectronico" maxlength="30" type="text">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="txtfecha">Fecha</label>
+                    <input class="form-control" id="txtfecha" maxlength="30" type="datetime-local" pattern="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{1}">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="txtmontopagado">Monto Pagado</label>
+                    <input class="form-control" id="txtmontopagado"  type="text">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="txtmetodopago">Método de Pago</label>
+                    <select class="form-select" id="txtmetodopago">
+                        <option value="Efectivo">Efectivo</option>
+                        <option value="Tarjeta de Crédito">Tarjeta de Crédito</option>
+                        <option value="Transferencia Bancaria">Transferencia Bancaria</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="txtestadopago">Estado de Pago</label>
+                    <select class="form-select" id="txtestadopago">
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Pagado">Pagado</option>
+                        <option value="Atrasado">Atrasado</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button"><i class="fas fa-times"></i>
+                    Cancelar
+                </button>
+
+                <input type="hidden" id="hddidcliente">
+                <input type="hidden" id="hddidpago">
+
+                <button class="btn btn-primary" id="btnguardarcliente" type="button"><i class="fas fa-save"></i> Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

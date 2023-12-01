@@ -9,8 +9,7 @@
 <body>
 <nav th:replace="~{layout::menu}"></nav>
 
-<!-- Agrega el nombre del usuario aquí -->
-<h4 class="welcome-text">Bienvenido: <span th:text="${session.username}"></span></h4>
+<h4 class="welcome-text">Bienvenido: <span th:text="${session.usuario}"></span></h4>
 
 <h3>Todo en tendencia alcanzó a los 10.000 seguidores</h3><br>
 <img th:src="@{/img/imagen.png}" alt="imagen" title="Viendo las estrellas" width="100%" height="500px">

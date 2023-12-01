@@ -12,9 +12,20 @@
     <div class="card-header text-bg-dark mb-3 fs-4">
         Mantenimiento de Locales - Fastrack
     </div>
+
     <div class="card-body">
-        <button id="btnagregar"
-                type="button" class="btn btn-dark fs-"><i class="fas fa-plus"></i> Agregar Locales</button>
+        <div class="d-flex justify-content-between">
+            <button id="btnagregar" type="button" class="btn btn-dark fs-">
+                <i class="fas fa-plus"></i> Agregar Locales
+            </button>
+
+            <form th:action="@{/locales/buscarPorLetra}" method="get">
+                <div class="input-group">
+                    <input type="text" placeholder="Ingresar Local" name="letra" value="Local" th:value="${letra}" class="form-control">
+                    <button type="submit" class="btn btn-dark"><i class="fas fa-search"></i> Buscar</button>
+                 </div>
+            </form>
+        </div>
         <hr />
         <div id="mensaje"></div>
         <table id="tbllocales" class="table table-striped table-bordered text-center">

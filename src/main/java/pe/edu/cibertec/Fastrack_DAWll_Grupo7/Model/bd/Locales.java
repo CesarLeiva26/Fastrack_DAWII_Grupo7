@@ -26,6 +26,4 @@ public class Locales {
     @ManyToOne
     @JoinColumn(name = "idempleado")
     private Empleado empleado;
-
-
 }

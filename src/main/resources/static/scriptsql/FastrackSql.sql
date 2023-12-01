@@ -91,7 +91,6 @@ CREATE TABLE IF NOT EXISTS tiposempleados (
     nombretipoempleado VARCHAR(50) NOT NULL
 );
 
-
 INSERT INTO tiposempleados (nombretipoempleado) VALUES
     ('Gerente de Logística'),
     ('Chofer de Entregas'),

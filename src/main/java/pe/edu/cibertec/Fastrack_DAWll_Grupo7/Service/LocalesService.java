@@ -20,6 +20,10 @@ public class LocalesService {
         return localesRepository.findAll();
     }
 
+    public List<Locales> buscarPorLetra(String letra) {
+        return localesRepository.findByNombrelocalStartingWith(letra);
+    }
+
 
     public ResultadoResponse guardarLocales(LocalRequest local) {
         String mensaje = "Local registrado correctamente";

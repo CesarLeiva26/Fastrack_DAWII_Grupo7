@@ -18,10 +18,15 @@ public class EmpleadoController {
 
     private EmpleadoService empleadoService;
     @GetMapping("/buscarPorNombre")
-    public String buscarPorNombre(@RequestParam String nombre, Model model) {
-        List<Empleado> empleados = empleadoService.buscarPorNombre(nombre);
+    public String buscarPorNombre(@RequestParam(required = false) String nombre, Model model) {
+        List<Empleado> empleados;
+        if (nombre == null || nombre.isEmpty() || nombre.equalsIgnoreCase("todos")) {
+            empleados = empleadoService.listarEmpleados();
+        } else {
+            empleados = empleadoService.buscarPorLetra(nombre);
+        }
         model.addAttribute("listaEmpleado", empleados);
-        return "backoffice/empleado/frmEmpleado"; // Asegúrate de que este sea el nombre correcto de tu vista
+        return "backoffice/empleado/frmEmpleado";
     }
 
     @GetMapping("")

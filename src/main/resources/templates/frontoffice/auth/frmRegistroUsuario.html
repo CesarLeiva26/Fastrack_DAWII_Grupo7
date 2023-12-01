@@ -30,24 +30,24 @@
       <form th:action="@{/auth/guardarUsuario}" method="post">
         <div class="mb-3">
           <label for="nombres" class="form-label">Nombres</label>
-          <input type="text" class="form-control" name="nombres" id="nombres">
+          <input type="text" class="form-control" name="nombres" required id="nombres">
         </div>
         <div class="mb-3">
           <label for="apellidos" class="form-label">Apellidos</label>
-          <input type="text" class="form-control" name="apellidos" id="apellidos">
+          <input type="text" class="form-control" name="apellidos" required id="apellidos">
         </div>
 
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
-          <input type="text" class="form-control" name="email" id="email">
+          <input type="text" class="form-control" name="email" required id="email">
         </div>
         <div class="mb-3">
           <label for="nomusuario" class="form-label">Usuario</label>
-          <input type="text" class="form-control" name="nomusuario" id="nomusuario">
+          <input type="text" class="form-control" name="nomusuario" required id="nomusuario">
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Contraseña</label>
-          <input type="password" class="form-control" name="password" id="password">
+          <input type="password" class="form-control" name="password"  required id="password">
         </div>
 
         <a class="btn btn-dark" th:href="@{/auth/login}" role="button">REGRESAR AL LOGIN</a>

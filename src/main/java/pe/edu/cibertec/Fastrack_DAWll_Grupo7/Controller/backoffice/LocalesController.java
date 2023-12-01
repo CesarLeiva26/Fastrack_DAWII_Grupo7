@@ -31,6 +31,19 @@ public class LocalesController {
     }
 
 
+    @GetMapping("/buscarPorLetra")
+    public String buscarPorLetra(@RequestParam(required = false) String letra, Model model) {
+        List<Locales> locales;
+        if (letra == null || letra.isEmpty() || letra.equalsIgnoreCase("todos")) {
+            locales = localesService.listarLocales();
+        } else {
+            locales = localesService.buscarPorLetra(letra);
+        }
+        model.addAttribute("listaLocales", locales);
+        return "backoffice/locales/frmLocales";
+    }
+
+
     @PostMapping("/guardar")
     @ResponseBody
     public ResultadoResponse guardarLocales(@RequestBody LocalRequest localRequest) {

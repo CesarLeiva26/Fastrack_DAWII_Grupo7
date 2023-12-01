@@ -15,9 +15,11 @@ import java.util.List;
 public class EmpleadoService {
 
     public EmpleadoRepository empleadoRepository;
-    public List<Empleado> buscarPorNombre(String nombre) {
-        return empleadoRepository.findByNombre(nombre);
+
+    public List<Empleado> buscarPorLetra(String letra) {
+        return empleadoRepository.findByNombreStartingWith(letra);
     }
+
     public List<Empleado> listarEmpleados(){
         return empleadoRepository.findAll();
     }

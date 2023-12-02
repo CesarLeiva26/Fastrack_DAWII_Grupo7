@@ -40,25 +40,4 @@ public class LoginController {
         new SecurityContextLogoutHandler().logout(request, response, authentication);
         return "redirect:/auth/login?logout";
     }
-    @PostMapping("/login-success")
-    public String loginUsuario(HttpServletRequest request) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        HttpSession session = request.getSession();
-        session.setAttribute("usuario", userDetails.getUsername());
-        return "home";
-    }
-
-    @PostMapping("/cambiarpassword")
-    public String cambiarPassword(@RequestParam String newPassword) {
-        Usuario usuario = obtenerUsuarioActual();
-        if (usuario != null) {
-            usuarioService.updatePassword(usuario, newPassword);
-        }
-        return "frontoffice/auth/frmLogin";
-    }
-
-    private Usuario obtenerUsuarioActual() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return usuarioService.findUserByUserName(userDetails.getUsername());
-    }
 }

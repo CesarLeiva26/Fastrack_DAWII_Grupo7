@@ -157,7 +157,7 @@ CREATE TABLE IF NOT EXISTS empleados (
 insert into empleados (idempleado, nombre, idtipoempleado, numerotelefono, correoelectronico)
 values  (1, 'César Leiva',   1, '999-944-584', 'cesar.leiva@enviosexpress.com')	,
 		(2,	'Rafael Rios',   1, '974-878-892', 'rafael.rios@enviosexpress.com'),
-		(3,	'Bruno Aguilar', 1, '123-456-2322', 'bruno.aguilar@enviosexpress.com');
+		(3,	'Bruno Aguilar', 1, '987-456-222', 'bruno.aguilar@enviosexpress.com');
 
 
 CREATE TABLE IF NOT EXISTS locales (

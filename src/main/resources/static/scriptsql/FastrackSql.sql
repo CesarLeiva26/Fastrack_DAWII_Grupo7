@@ -1,14 +1,36 @@
+CREATE TABLE IF NOT EXISTS Rol (
+    idrol INT AUTO_INCREMENT PRIMARY KEY,
+    nomrol VARCHAR(100) NOT NULL
+);
+
+insert into rol (idrol, nomrol) values
+  (1,'ROLE_ADMIN'),
+  (2,'ROLE_USER');
+
+CREATE TABLE IF NOT EXISTS Usuario (
+    idusuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombres VARCHAR(100),
+    apellidos VARCHAR(100),
+    email VARCHAR(200),
+    nomusuario VARCHAR(100) NOT NULL,
+    password VARCHAR(300) NOT NULL,
+    activo BOOLEAN
+);
+
+CREATE TABLE IF NOT EXISTS Usuario_Rol (
+    idusuario INT,
+    idrol INT,
+    PRIMARY KEY (idusuario, idrol),
+    FOREIGN KEY (idusuario) REFERENCES Usuario (idusuario),
+    FOREIGN KEY (idrol) REFERENCES Rol (idrol)
+);
+
 CREATE TABLE IF NOT EXISTS clientes (
     idcliente INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     direccion VARCHAR(255),
     numerotelefono VARCHAR(20),
     correoelectronico VARCHAR(255) UNIQUE
-);
-
-CREATE TABLE IF NOT EXISTS tipoestadosorden (
-    idtipoestadoorden INT AUTO_INCREMENT PRIMARY KEY,
-    nombreestado VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS historialpagos (
@@ -21,6 +43,24 @@ CREATE TABLE IF NOT EXISTS historialpagos (
     FOREIGN KEY (idcliente) REFERENCES clientes(idcliente)
 );
 
+CREATE TABLE IF NOT EXISTS tipoestadosorden (
+    idestadoorden INT AUTO_INCREMENT PRIMARY KEY,
+    nombreestado VARCHAR(50) NOT NULL
+);
+
+INSERT INTO tipoestadosorden (nombreestado)
+VALUES
+    ('En Proceso'),
+    ('Completada'),
+    ('Cancelada'),
+    ('En Espera de Recolección'),
+    ('En Ruta de Entrega'),
+    ('Reprogramada'),
+    ('Entrega Fallida'),
+    ('En Inspección'),
+    ('En Almacén'),
+    ('En Retorno');
+
 CREATE TABLE IF NOT EXISTS vehiculos (
     idvehiculo INT AUTO_INCREMENT PRIMARY KEY,
     placa VARCHAR(20) NOT NULL,
@@ -30,6 +70,16 @@ CREATE TABLE IF NOT EXISTS vehiculos (
     capacidadvolumen DECIMAL(10, 2) NOT NULL
 );
 
+INSERT INTO vehiculos (placa, marca, modelo, capacidadpeso, capacidadvolumen)
+VALUES
+    ('GHI789', 'Kenworth', 'W990', 22000.00, 90.0),
+    ('JKL012', 'Peterbilt', '389', 21000.00, 88.0),
+    ('MNO345', 'Freightliner', 'Cascadia', 19000.00, 82.0),
+    ('PQR678', 'Mack', 'Anthem', 20000.00, 85.5),
+    ('STU901', 'International', 'LT Series', 23000.00, 95.0),
+    ('VWX234', 'Western Star', '5700XE', 21000.00, 87.5),
+    ('YZA567', 'Hino', 'XL Series', 18000.00, 78.0);
+
 CREATE TABLE IF NOT EXISTS rutasentrega (
     idruta INT AUTO_INCREMENT PRIMARY KEY,
     nombreruta VARCHAR(255) NOT NULL,
@@ -38,7 +88,6 @@ CREATE TABLE IF NOT EXISTS rutasentrega (
     duracionestimada INT NOT NULL,
     costoruta DECIMAL(10, 2) NOT NULL
 );
-
 
 CREATE TABLE IF NOT EXISTS preciosporkilometro (
     idprecioporkilometro INT AUTO_INCREMENT PRIMARY KEY,
@@ -54,10 +103,10 @@ CREATE TABLE IF NOT EXISTS ordenes (
     fechacreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     idestadoorden INT,
     quienrecepciona VARCHAR(255),
-    track VARCHAR(255) UNIQUE,
+    track VARCHAR(255),
     idvehiculo INT,
     FOREIGN KEY (idcliente) REFERENCES clientes(idcliente),
-    FOREIGN KEY (idestadoorden) REFERENCES tipoestadosorden(idtipoestadoorden),
+    FOREIGN KEY (idestadoorden) REFERENCES tipoestadosorden(idestadoorden),
     FOREIGN KEY (idvehiculo) REFERENCES vehiculos(idvehiculo)
 );
 
@@ -93,7 +142,6 @@ CREATE TABLE IF NOT EXISTS tiposempleados (
 
 INSERT INTO tiposempleados (nombretipoempleado) VALUES
     ('Gerente de Logística'),
-    ('Chofer de Entregas'),
     ('Empleado de Almacén'),
     ('Supervisor de Envíos');
 
@@ -105,6 +153,12 @@ CREATE TABLE IF NOT EXISTS empleados (
     correoelectronico VARCHAR(255) UNIQUE,
     FOREIGN KEY (idtipoempleado) REFERENCES tiposempleados(idtipoempleado)
 );
+
+insert into empleados (idempleado, nombre, idtipoempleado, numerotelefono, correoelectronico)
+values  (1, 'César Leiva',   1, '999-944-584', 'cesar.leiva@enviosexpress.com')	,
+		(2,	'Rafael Rios',   1, '974-878-892', 'rafael.rios@enviosexpress.com'),
+		(3,	'Bruno Aguilar', 1, '123-456-2322', 'bruno.aguilar@enviosexpress.com');
+
 
 CREATE TABLE IF NOT EXISTS locales (
     idlocal INT AUTO_INCREMENT PRIMARY KEY,
@@ -125,44 +179,3 @@ VALUES
     (4, 'Local CO', 'Av. Norte 567', 'Cusco', '08001', '084-765-4321', 2),
     (5, 'Local IA', 'Calle Sur 890', 'Ica', '11001', '056-234-5678', 1),
     (6, 'Local TA', 'Av. Este 456', 'Tacna', '23001', '123-456-2322', 3);
-
-select * from locales
-
-CREATE TABLE IF NOT EXISTS Rol (
-    idrol INT AUTO_INCREMENT PRIMARY KEY,
-    nomrol VARCHAR(100) NOT NULL
-);
-
-insert into rol (idrol, nomrol) values
-  (1, 'ROLE_ADMIN'),
-  (2,'ROLE_USER');
-
-
- select * from rol
-
-CREATE TABLE IF NOT EXISTS Usuario (
-    idusuario INT AUTO_INCREMENT PRIMARY KEY,
-    nombres VARCHAR(100),
-    apellidos VARCHAR(100),
-    email VARCHAR(200),
-    nomusuario VARCHAR(100) NOT NULL,
-    password VARCHAR(300) NOT NULL,
-    activo BOOLEAN
-);
-
-
-CREATE TABLE IF NOT EXISTS Usuario_Rol (
-    idusuario INT,
-    idrol INT,
-    PRIMARY KEY (idusuario, idrol),
-    FOREIGN KEY (idusuario) REFERENCES Usuario (idusuario),
-    FOREIGN KEY (idrol) REFERENCES Rol (idrol)
-);
-
-select  * from clientes c join historialpagos h on c.idcliente = h.idcliente
-select * from usuario
-select * from Rol
-select * from empleados
-SELECT clientes.idcliente, clientes.nombre, clientes.direccion, clientes.numerotelefono, clientes.correoelectronico, historialpagos.idpago, historialpagos.fechapago, historialpagos.montopagado, historialpagos.metodopago, historialpagos.estadopago
-FROM clientes
-INNER JOIN historialpagos ON clientes.idcliente = historialpagos.idcliente;

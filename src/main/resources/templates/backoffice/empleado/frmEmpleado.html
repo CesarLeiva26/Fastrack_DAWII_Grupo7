@@ -9,13 +9,10 @@
 <script th:src="@{/scripts/web/backoffice/empleado/frmEmpleado.js}"
         type="text/javascript"></script>
 <nav th:replace="~{layout::menu}"></nav>
-
-
 <div class="card">
     <div class="card-header text-bg-dark mb-3 fs-4">
         Mantenimiento de Empleados - Fastrack
     </div>
-
     <div class="card-body">
         <div class="d-flex justify-content-between">
             <button id="btnagregar" type="button" class="btn btn-dark fs-">
@@ -28,6 +25,7 @@
                     <button type="submit" class="btn btn-dark"><i class="fas fa-search"></i> Buscar</button>
                 </div>
             </form>
+
          </div>
         <hr />
         <div id="mensaje"></div>
@@ -40,8 +38,10 @@
                 <th scope="col">Número Teléfono</th>
                 <th scope="col">Correo Electrónico</th>
                 <th scope="col">Actualizar</th>
+                <th scope="col">Eliminar</th>
             </tr>
             </thead>
+
             <tbody>
             <tr th:each="empleado :${listaEmpleado}">
                 <td th:text="${empleado.idempleado}"></td>
@@ -50,6 +50,7 @@
                 <td th:text="${empleado.numerotelefono}"></td>
                 <td th:text="${empleado.correoelectronico}"></td>
                 <td>
+
                     <button type="button" class="btn btn-dark btnactualizar"
                             th:data-empleadoid="${empleado.idempleado}"
                             th:data-empleadonombre="${empleado.nombre}"
@@ -57,6 +58,13 @@
                             th:data-empleadotelefono="${empleado.numerotelefono}"
                             th:data-empleadocorreo="${empleado.correoelectronico}">
                         <i class="fas fa-edit"></i>
+                    </button>
+                </td>
+
+                <td>
+                    <button type="button" class="btn btn-danger btneliminarempleado"
+                            th:data-empleadoid="${empleado.idempleado}">
+                        <i class="fas fa-trash-alt"></i>
                     </button>
                 </td>
             </tr>
@@ -93,6 +101,25 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times"></i> Cancelar</button>
                 <button type="button" id="btnguardar" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEliminarEmpleado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 fw-bolder" id="exampleModalLabel">Eliminar Empleado</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body fw-bolder">
+                <label id="mensajeeliminar"></label>
+                <input type="hidden" id="hddideliminarempleado" value="0">
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-dark fw-bolder" data-bs-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-danger fw-bolder" id="btneliminarempleado">Eliminar</button>
             </div>
         </div>
     </div>

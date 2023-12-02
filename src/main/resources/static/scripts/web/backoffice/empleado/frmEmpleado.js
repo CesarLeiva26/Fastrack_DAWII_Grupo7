@@ -103,9 +103,39 @@ function listarEmpleados(){
                         "data-empleadotipo='"+value.tiposempleados.idtipoempleado+"'"+
                         "data-empleadotelefono='"+value.numerotelefono+"'"+
                         "data-empleadocorreo='"+value.correoelectronico+"'"+
-                        "><i class='fas fa-edit'></i></button>"+
-                    "</td></tr>");
+                        "><i class='fas fa-edit'></i></button></td>"+
+                        "<td>"+
+                        "<button type='button' class='btn btn-danger btneliminarempleado'"+
+                        "data-empleadoid='"+value.idempleado+"'"+
+                        "data-empleadonombre='"+value.nombre+"'"+
+                        "><i class='fas fa-trash-alt'></i></button>"+
+                        "</td></tr>");
             });
         }
     });
 }
+
+$(document).on("click", "#btneliminarempleado", function(){
+    $.ajax({
+        type: "DELETE",
+        contentType: 'application/json',
+        url: "/empleado/eliminarEmpleado",
+        data: JSON.stringify({
+            idempleado: $("#hddideliminarempleado").val()
+        }),
+        success: function(resultado){
+            alert(resultado.mensaje);
+            listarEmpleados();
+        },
+        error: function(xhr, status, error) {
+            console.error("Error al eliminar empleado:", error);
+        }
+    });
+    $("#modalEliminarEmpleado").modal("hide");
+});
+
+$(document).on("click", ".btneliminarempleado", function(){
+    $("#hddideliminarempleado").val($(this).attr("data-empleadoid"));
+    $("#mensajeeliminar").text("¿Seguro de eliminar el " + $(this).attr("data-empleadoid") + "?");
+    $("#modalEliminarEmpleado").modal("show");
+});

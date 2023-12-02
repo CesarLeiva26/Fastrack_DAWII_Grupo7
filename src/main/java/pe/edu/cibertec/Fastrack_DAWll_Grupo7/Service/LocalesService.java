@@ -24,6 +24,9 @@ public class LocalesService {
         return localesRepository.findByNombrelocalStartingWith(letra);
     }
 
+    public void eliminarLocales(Integer idlocal){
+         localesRepository.deleteById(idlocal);
+    }
 
     public ResultadoResponse guardarLocales(LocalRequest local) {
         String mensaje = "Local registrado correctamente";

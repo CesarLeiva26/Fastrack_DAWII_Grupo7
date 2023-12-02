@@ -3,6 +3,7 @@
 <head th:replace="~{layout::head}">
     <meta charset="UTF-8">
     <title>Fastrack - Mantenimiento de Locales</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/css/empleado.css}">
 </head>
 <body>
 <script th:src="@{/scripts/web/backoffice/locales/frmLocales.js}"
@@ -12,7 +13,6 @@
     <div class="card-header text-bg-dark mb-3 fs-4">
         Mantenimiento de Locales - Fastrack
     </div>
-
     <div class="card-body">
         <div class="d-flex justify-content-between">
             <button id="btnagregar" type="button" class="btn btn-dark fs-">
@@ -25,6 +25,7 @@
                     <button type="submit" class="btn btn-dark"><i class="fas fa-search"></i> Buscar</button>
                  </div>
             </form>
+
         </div>
         <hr />
         <div id="mensaje"></div>
@@ -39,8 +40,10 @@
                 <th scope="col">Telefono Postal</th>
                 <th scope="col">Empleado</th>
                 <th scope="col">Actualizar</th>
+                <th scope="col">Eliminar</th>
             </tr>
             </thead>
+
             <tbody>
             <tr th:each="locales :${listaLocales}">
                 <td th:text="${locales.idlocal}"></td>
@@ -51,6 +54,7 @@
                 <td th:text="${locales.telefonolocal}"></td>
                 <td th:text="${locales.empleado.nombre}"></td>
                 <td>
+
                     <button type="button" class="btn btn-dark btnactualizar"
                             th:data-localid="${locales.idlocal}"
                             th:data-localnombre="${locales.nombrelocal}"
@@ -61,7 +65,14 @@
                             th:data-localempleadoid="${locales.empleado.idempleado}">
                         <i class="fas fa-edit"></i>
                     </button>
+                </td>
+
                 <td>
+                    <button type="button" class="btn btn-danger btneliminarlocales"
+                            th:data-localid="${locales.idlocal}">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -109,5 +120,23 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalEliminarLocales" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 fw-bolder" id="exampleModalLabel">Eliminar Locales</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body fw-bolder">
+                <label id="mensajeeliminar"></label>
+                <input type="hidden" id="hddideliminarlocales" value="0">
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-dark fw-bolder" data-bs-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-danger fw-bolder" id="btneliminarlocales">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

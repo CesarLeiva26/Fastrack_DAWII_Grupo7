@@ -47,4 +47,18 @@ public class EmpleadoController {
     public ResultadoResponse guardarEmpleados(@RequestBody EmpleadoRequest empleadoRequest){
         return empleadoService.guardarEmpleados(empleadoRequest);
     }
+
+    @DeleteMapping("/eliminarEmpleado")
+    @ResponseBody
+    public ResultadoResponse eliminarEmpleado(@RequestBody EmpleadoRequest empleadoRequest) {
+        String mensaje = "Eliminación de Empleado Exitoso";
+        Boolean respuesta = true;
+        try {
+            empleadoService.eliminarEmpleado(empleadoRequest.getIdempleado());
+        } catch (Exception e) {
+            mensaje = "Eliminación de Empleado sin Éxito";
+            respuesta = false;
+        }
+        return ResultadoResponse.builder().mensaje(mensaje).respuesta(respuesta).build();
+    }
 }

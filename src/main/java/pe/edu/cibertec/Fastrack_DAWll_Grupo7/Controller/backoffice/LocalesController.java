@@ -1,6 +1,7 @@
 package pe.edu.cibertec.Fastrack_DAWll_Grupo7.Controller.backoffice;
 
 import pe.edu.cibertec.Fastrack_DAWll_Grupo7.Model.bd.Locales;
+import pe.edu.cibertec.Fastrack_DAWll_Grupo7.Model.request.EmpleadoRequest;
 import pe.edu.cibertec.Fastrack_DAWll_Grupo7.Model.request.LocalRequest;
 import pe.edu.cibertec.Fastrack_DAWll_Grupo7.Model.response.ResultadoResponse;
 import pe.edu.cibertec.Fastrack_DAWll_Grupo7.Service.LocalesService;
@@ -42,12 +43,23 @@ public class LocalesController {
         model.addAttribute("listaLocales", locales);
         return "backoffice/locales/frmLocales";
     }
-
-
     @PostMapping("/guardar")
     @ResponseBody
     public ResultadoResponse guardarLocales(@RequestBody LocalRequest localRequest) {
         return localesService.guardarLocales(localRequest);
     }
 
+    @DeleteMapping("/eliminarLocal")
+    @ResponseBody
+    public ResultadoResponse eliminarLocal(@RequestBody LocalRequest localRequest) {
+        String mensaje = "Eliminación de Locales Exitoso";
+        Boolean respuesta = true;
+        try {
+            localesService.eliminarLocales(localRequest.getIdlocal());
+        } catch (Exception e) {
+            mensaje = "Eliminación de Locales sin Éxito";
+            respuesta = false;
+        }
+        return ResultadoResponse.builder().mensaje(mensaje).respuesta(respuesta).build();
+    }
 }

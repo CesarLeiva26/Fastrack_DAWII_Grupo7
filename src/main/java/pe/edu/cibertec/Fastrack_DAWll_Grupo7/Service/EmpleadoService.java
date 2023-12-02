@@ -46,4 +46,7 @@ public class EmpleadoService {
         }
         return ResultadoResponse.builder().mensaje(mensaje).respuesta(respuesta).build();
     }
+    public void eliminarEmpleado(Integer idempleado) {
+        empleadoRepository.deleteById(idempleado);
+    }
 }

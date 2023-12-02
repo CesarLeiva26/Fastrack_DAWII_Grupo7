@@ -124,11 +124,43 @@ function listarLocales() {
                     "data-localciudad='" + value.ciudadlocal + "'" +
                     "data-localcodigopostal='" + value.codigopostal + "'" +
                     "data-localtelefonolocal='" + value.telefonolocal + "'" +
-                    "data-localempleadoid='" + value.empleado.idempleado + "'" +
-                    "><i class='fas fa-edit'></i></button>" +
+                    "data-localempleadoid='"+value.empleado.idempleado + "'" +
+                    "><i class='fas fa-edit'></i></button></td>"+
+                    "<td>"+
+                    "<button type='button' class='btn btn-danger btneliminarlocales'"+
+                    "data-localid='"+value.idlocal+"'"+
+                    "data-localnombre='"+value.nombrelocal+"'"+
+                    "><i class='fas fa-trash-alt'></i></button>"+
                     "</td></tr>");
             });
         }
     });
 }
 
+
+$(document).on("click", "#btneliminarlocales", function() {
+    $.ajax({
+        type: "DELETE",
+        contentType: 'application/json',
+        url: "/locales/eliminarLocal",
+        data: JSON.stringify({
+            idlocal: $("#hddideliminarlocales").val()
+        }),
+        success: function(resultado) {
+            alert(resultado.mensaje);
+            listarLocales();
+            location.reload();
+        },
+        error: function(xhr, status, error) {
+            console.error("Error al eliminar local:", error);
+        }
+    });
+    $("#modalEliminarLocales").modal("hide");
+});
+
+
+$(document).on("click", ".btneliminarlocales", function(){
+   $("#hddideliminarlocales").val($(this).attr("data-localid"));
+   $("#mensajeeliminar").text("¿Seguro de eliminar el " + $(this).attr("data-localid") + "?");
+   $("#modalEliminarLocales").modal("show");
+});

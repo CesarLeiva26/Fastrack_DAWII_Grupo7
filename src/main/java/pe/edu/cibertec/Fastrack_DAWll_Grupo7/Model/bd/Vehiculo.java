@@ -23,7 +23,7 @@ public class Vehiculo {
     @Column(name = "modelo")
     private String modelo;
     @Column(name = "capacidadpeso")
-    private BigDecimal capacidadPeso;
+    private BigDecimal capacidadpeso;
     @Column(name = "capacidadvolumen")
-    private BigDecimal capacidadVolumen;
+    private BigDecimal capacidadvolumen;
 }
